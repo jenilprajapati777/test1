@@ -22,6 +22,8 @@ import {
 } from "../lib/hostNpc";
 import { Heart, Maximize2, ArrowLeft } from "lucide-react";
 import { LiteGallery } from "../components/lite/LiteGallery";
+import { useMultiplayerStore } from "../store/useMultiplayer";
+import { PeerAvatars } from "../world/PeerAvatars";
 
 type ExperienceStage =
   "loading" | "ready" | "customizer" | "gallery" | "closed";
@@ -68,6 +70,16 @@ export const MuseumPage: React.FC = () => {
 
   // Chat messages
   const [recentChats, setRecentChats] = useState<ActiveChat[]>([]);
+
+  // Multiplayer
+  const {
+    connect,
+    broadcastPosition,
+    broadcastBubble,
+    broadcastEmote,
+    hasLiveHost,
+  } = useMultiplayerStore();
+  const lastBroadcastRef = React.useRef<number>(0);
 
   // WebGL context check
   const [webGlSupported, setWebGlSupported] = useState(true);
@@ -151,6 +163,19 @@ export const MuseumPage: React.FC = () => {
       });
     }
   }, [plan]);
+
+  // Connect to multiplayer channel when entering gallery
+  useEffect(() => {
+    if (stage === "gallery") {
+      const disconnect = connect(
+        slug || "demo",
+        visitorName,
+        visitorAvatar,
+        Boolean(isHostParam),
+      );
+      return () => disconnect();
+    }
+  }, [stage, slug, visitorName, visitorAvatar, isHostParam, connect]);
 
   // Host NPC spawn trigger after entering gallery
   useEffect(() => {
@@ -279,10 +304,12 @@ export const MuseumPage: React.FC = () => {
       expiresAt: Date.now() + 5000,
     };
     setRecentChats((prev) => [...prev, chat]);
+    broadcastBubble(message);
   };
 
   // Handle emote
   const handleEmote = (emote: "wave" | "dance" | "clap" | "heart") => {
+    broadcastEmote(emote);
     if (emote === "heart") {
       setAvatarAnim("wave");
     } else {
@@ -438,9 +465,20 @@ export const MuseumPage: React.FC = () => {
         avatarPos={avatarPos}
         onAvatarMove={(move) => {
           setAvatarPos({ x: move.x, y: move.y, z: move.z, ry: move.ry });
-          setAvatarAnim(
-            move.isRunning ? "run" : move.isMoving ? "walk" : "idle",
-          );
+          const currentAnim = move.isRunning
+            ? "run"
+            : move.isMoving
+              ? "walk"
+              : "idle";
+          setAvatarAnim(currentAnim);
+
+          // Broadcast position at ~15 Hz
+          const now = Date.now();
+          if (now - lastBroadcastRef.current >= 66) {
+            lastBroadcastRef.current = now;
+            broadcastPosition(move.x, move.z, move.ry, currentAnim);
+          }
+
           setHostState((prev) =>
             hostNpcReducer(
               prev,
@@ -486,8 +524,11 @@ export const MuseumPage: React.FC = () => {
           rotation={[0, avatarPos.ry, 0]}
         />
 
+        {/* Remote Peers in Multiplayer */}
+        <PeerAvatars />
+
         {/* Host Companion Avatar (if live host is not present) */}
-        {!isHostParam && hostState.status !== "Inactive" && (
+        {!isHostParam && !hasLiveHost && hostState.status !== "Inactive" && (
           <AvatarModel
             config={museum.host_avatar || DEFAULT_HOST_AVATAR}
             animState={
