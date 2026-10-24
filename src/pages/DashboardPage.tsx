@@ -223,7 +223,7 @@ export const DashboardPage: React.FC = () => {
 
                     <button
                       onClick={() => setDeleteTarget(m)}
-                      className="px-3 py-2 rounded-xl bg-heart/10 hover:bg-heart/20 border border-heart/20 text-xs text-heart font-medium flex items-center gap-1.5 transition-all ml-auto"
+                      className="px-3 py-2 rounded-xl bg-heart/10 hover:bg-heart/20 border border-heart/20 text-xs text-rose-400 font-medium flex items-center gap-1.5 transition-all ml-auto"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       <span>Delete</span>
@@ -291,7 +291,7 @@ export const DashboardPage: React.FC = () => {
                 permanently removed.
               </p>
               <p className="text-xs text-cream-dim mb-2 font-mono">
-                Type <span className="text-heart font-bold">delete</span> to
+                Type <span className="text-rose-400 font-bold">delete</span> to
                 confirm:
               </p>
               <input

@@ -14,8 +14,7 @@ import {
 import { getClient } from "../client";
 import { Museum } from "../types/museum";
 import { renderHeartQrSvg, renderClassicQrSvg } from "../lib/heartQr";
-import { renderCardPng, renderStoryPng } from "../lib/shareCard";
-import { PNG } from "pngjs";
+import { generateShareCardBlob } from "../lib/browserShareCard";
 
 export const SharePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -88,38 +87,44 @@ export const SharePage: React.FC = () => {
     }
   };
 
-  const handleDownloadCardPng = () => {
-    const png = renderCardPng({
-      url: museumUrl,
-      isClassic,
-      fromName: museum?.from_name,
-      toName: museum?.to_name,
-    });
-    const buffer = PNG.sync.write(png);
-    const blob = new Blob([new Uint8Array(buffer)], { type: "image/png" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `museum-card-${museumSlug}.png`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const handleDownloadCardPng = async () => {
+    try {
+      const blob = await generateShareCardBlob({
+        title: museum?.title || "Our Museum",
+        fromName: museum?.from_name || "Ethan",
+        toName: museum?.to_name || "Maya",
+        qrSvg,
+        isStory: false,
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `museum-card-${museumSlug}.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Failed to generate card PNG", err);
+    }
   };
 
-  const handleDownloadStoryPng = () => {
-    const png = renderStoryPng({
-      url: museumUrl,
-      isClassic,
-      fromName: museum?.from_name,
-      toName: museum?.to_name,
-    });
-    const buffer = PNG.sync.write(png);
-    const blob = new Blob([new Uint8Array(buffer)], { type: "image/png" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `museum-story-${museumSlug}.png`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const handleDownloadStoryPng = async () => {
+    try {
+      const blob = await generateShareCardBlob({
+        title: museum?.title || "Our Museum",
+        fromName: museum?.from_name || "Ethan",
+        toName: museum?.to_name || "Maya",
+        qrSvg,
+        isStory: true,
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `museum-story-${museumSlug}.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Failed to generate story PNG", err);
+    }
   };
 
   const handleDownloadSvg = () => {

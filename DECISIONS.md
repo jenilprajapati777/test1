@@ -28,3 +28,12 @@ This log records autonomous decisions made during the development of "Museum of 
 
 - **Context:** Verification must be fast, self-contained, deterministic, and runnable offline without Docker or remote database connections.
 - **Decision:** Use `@electric-sql/pglite` to execute the exact Supabase SQL migration (`0001_init.sql`) against an in-process Postgres engine with auth and storage shims.
+
+### 6. Browser-Native Share Card PNG Generation
+- **Context:** `pngjs` depends on Node.js streams and `util.inherits`, which crashes in Vite client browser bundles.
+- **Decision:** Created `src/lib/browserShareCard.ts` utilizing browser-native HTML5 Canvas 2D API (`createRadialGradient`, rounded rectangles, high-DPI scaling) for generating 1080x1080 square and 1080x1920 story PNG share cards. Separated Node test PNG utilities into `src/lib/heartQrPng.ts`, keeping `src/lib/heartQr.ts` free of Node dependencies.
+
+### 7. WCAG AA Color Contrast Adjustments
+- **Context:** Automated `axe-core` accessibility audits flagged contrast ratios on `#0B0D1F` (navy) backgrounds where `#E4325B` (raspberry) yielded 4.49:1 vs 4.5:1 required for normal body text.
+- **Decision:** Enhanced failure status badges and interactive action text to `text-rose-400` / `text-rose-300`, exceeding 6.2:1 contrast ratio while retaining the warm raspberry/rose design palette.
+

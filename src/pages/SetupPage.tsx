@@ -389,7 +389,7 @@ export const SetupPage: React.FC = () => {
                   check.status === "success"
                     ? "bg-presence/20 text-presence border border-presence/30"
                     : check.status === "failure"
-                      ? "bg-heart/20 text-heart border border-heart/30"
+                      ? "bg-heart/20 text-rose-300 font-medium border border-heart/30"
                       : "bg-white/10 text-cream-dim"
                 }`}
               >

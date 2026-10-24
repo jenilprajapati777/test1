@@ -3,11 +3,13 @@ import jsQR from "jsqr";
 import { PNG } from "pngjs";
 import {
   getHeartQrModules,
-  renderHeartQrPng,
   renderHeartQrSvg,
-  renderClassicQrPng,
   renderClassicQrSvg,
 } from "../../src/lib/heartQr";
+import {
+  renderHeartQrPng,
+  renderClassicQrPng,
+} from "../../src/lib/heartQrPng";
 import { generateSlug } from "../../src/lib/slug";
 
 function decodePng(png: PNG): string | null {
