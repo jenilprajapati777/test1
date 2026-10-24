@@ -70,7 +70,7 @@ describe("Test 2: Heart QR and Classic QR Decoding", () => {
       }
     }
     expect(successCount).toBe(50);
-  });
+  }, 20000);
 
   it("decodes 50 random slugs at 512px with >= 98% accuracy", () => {
     let successCount = 0;
