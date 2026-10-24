@@ -4,7 +4,7 @@
 
 - [x] **Phase 0: Scaffold & Tooling** (scaffold, tooling, env/Demo-Mode switch, CI workflow, PROGRESS.md, DECISIONS.md, ASSETS.md, LICENSE)
 - [x] **Phase 1: Design System & Landing** (tokens, typography, landing page with hero, demo video/canvas preview, feature cards, FAQ, footer, mobile responsiveness)
-- [ ] **Phase 2: Heart QR & Share-Card Exports** (heart QR algorithm, core width ratio, module density, Classic QR toggle, Card 1080x1080, Story 1080x1920, SVG export, tests 2 & 3)
+- [x] **Phase 2: Heart QR & Share-Card Exports** (heart QR algorithm, core width ratio, module density, Classic QR toggle, Card 1080x1080, Story 1080x1920, SVG export, tests 2 & 3)
 - [ ] **Phase 3: World Core** (pure deterministic layout.ts, neoclassical materials, lighting, colliders with 2D AABB slide, third-person camera & controls, cinema nook, placeholder art)
 - [ ] **Phase 4: Avatars & Door Customizer** (procedural anime toon avatars, MeshToonMaterial, rig with pivots, animations, facade scene, door customizer UI, skin swatches, outfit presets)
 - [ ] **Phase 5: Full Experience Flow, Viewing Modes, Bench, Emotes, Chat, HUD** (loading with real %, Start pill, fullscreen, interactive plaque fly-in, artwork inspection, bench sitting, emotes 1-4, speech bubbles, HUD)
