@@ -1,7 +1,7 @@
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 // Polyfill window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: (query: string) => ({
     matches: false,
@@ -23,7 +23,7 @@ globalThis.ResizeObserver = class ResizeObserver {
 };
 
 // Polyfill BroadcastChannel if not available in jsdom
-if (typeof globalThis.BroadcastChannel === 'undefined') {
+if (typeof globalThis.BroadcastChannel === "undefined") {
   const channels = new Map<string, Set<(ev: MessageEvent) => void>>();
   globalThis.BroadcastChannel = class BroadcastChannel {
     name: string;
@@ -37,7 +37,7 @@ if (typeof globalThis.BroadcastChannel === 'undefined') {
       if (set) {
         for (const cb of set) {
           if (cb !== this.listener) {
-            cb(new MessageEvent('message', { data: message }));
+            cb(new MessageEvent("message", { data: message }));
           }
         }
       }

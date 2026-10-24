@@ -1,4 +1,4 @@
-declare module 'heic2any' {
+declare module "heic2any" {
   export default function heic2any(options: {
     blob: Blob;
     toType?: string;
@@ -7,7 +7,7 @@ declare module 'heic2any' {
   }): Promise<Blob | Blob[]>;
 }
 
-declare module 'jsqr' {
+declare module "jsqr" {
   export interface QRCodePoint {
     x: number;
     y: number;
@@ -33,7 +33,8 @@ declare module 'jsqr' {
     width: number,
     height: number,
     options?: {
-      inversionAttempts?: 'dontInvert' | 'onlyInvert' | 'attemptBoth' | 'invertFirst';
-    }
+      inversionAttempts?:
+        "dontInvert" | "onlyInvert" | "attemptBoth" | "invertFirst";
+    },
   ): QRCode | null;
 }

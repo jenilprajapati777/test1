@@ -19,10 +19,17 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "types": ["vite/client", "node"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "scripts", "tests", "vitest.config.ts", "playwright.config.ts"]
+  "include": [
+    "src",
+    "scripts",
+    "tests",
+    "vitest.config.ts",
+    "playwright.config.ts"
+  ]
 }

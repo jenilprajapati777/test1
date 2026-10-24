@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-ghpages
+coverage
+test-results
+playwright-report
+reference
+*.zip
+*.log

@@ -9,19 +9,24 @@ export interface AppConfig {
 export function getAppConfig(): AppConfig {
   const env = import.meta.env;
 
-  const forcedDemo = env.VITE_DEMO_MODE === '1' || env.VITE_DEMO_MODE === 'true';
+  const forcedDemo =
+    env.VITE_DEMO_MODE === "1" || env.VITE_DEMO_MODE === "true";
   const supabaseUrl = env.VITE_SUPABASE_URL?.trim();
   const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY?.trim();
 
   const isSupabaseConfigured =
     Boolean(supabaseUrl) &&
     Boolean(supabaseAnonKey) &&
-    !supabaseUrl?.includes('your-project') &&
-    !supabaseAnonKey?.includes('your-key');
+    !supabaseUrl?.includes("your-project") &&
+    !supabaseAnonKey?.includes("your-key");
 
   const isDemoMode = forcedDemo || !isSupabaseConfigured;
-  const siteUrl = env.VITE_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173');
-  const showPricing = env.VITE_PRICING === 'on' || env.VITE_PRICING === 'true';
+  const siteUrl =
+    env.VITE_PUBLIC_SITE_URL ||
+    (typeof window !== "undefined"
+      ? window.location.origin
+      : "http://localhost:5173");
+  const showPricing = env.VITE_PRICING === "on" || env.VITE_PRICING === "true";
 
   return {
     isDemoMode,
