@@ -6,13 +6,14 @@
  * 4. Caps maximum length
  */
 export function sanitizeText(input: unknown, maxLength = 280): string {
-  if (typeof input !== 'string') return '';
+  if (typeof input !== "string") return "";
 
   // 1. Strip HTML tags
-  let cleaned = input.replace(/<[^>]*>/g, '');
+  let cleaned = input.replace(/<[^>]*>/g, "");
 
   // 2. Strip non-printable ASCII control characters (0-31 except \n \r, and 127)
-  cleaned = cleaned.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, '');
+  // eslint-disable-next-line no-control-regex
+  cleaned = cleaned.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, "");
 
   // 3. Trim leading/trailing whitespace
   cleaned = cleaned.trim();
@@ -25,10 +26,13 @@ export function sanitizeText(input: unknown, maxLength = 280): string {
   return cleaned;
 }
 
-export function validateNonEmptyText(input: unknown, maxLength = 280): { valid: boolean; text: string; error?: string } {
+export function validateNonEmptyText(
+  input: unknown,
+  maxLength = 280,
+): { valid: boolean; text: string; error?: string } {
   const sanitized = sanitizeText(input, maxLength);
   if (!sanitized || sanitized.length === 0) {
-    return { valid: false, text: '', error: 'Cannot be empty' };
+    return { valid: false, text: "", error: "Cannot be empty" };
   }
   return { valid: true, text: sanitized };
 }

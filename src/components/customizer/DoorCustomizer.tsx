@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import * as THREE from 'three';
+import React, { useState, useRef, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import * as THREE from "three";
 import {
   AvatarConfig,
   DEFAULT_VISITOR_AVATAR,
@@ -11,11 +11,21 @@ import {
   ShoesStyle,
   ExtraItem,
   validateAvatarConfig,
-} from '../../types/avatar';
-import { FacadeScene } from '../../world/FacadeScene';
-import { AvatarModel } from '../../world/AvatarModel';
-import { ChevronLeft, ChevronRight, ZoomIn, Ban, Sparkles, User, Palette, Shirt, Footprints } from 'lucide-react';
-import { sanitizeText } from '../../lib/sanitize';
+} from "../../types/avatar";
+import { FacadeScene } from "../../world/FacadeScene";
+import { AvatarModel } from "../../world/AvatarModel";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  Ban,
+  Sparkles,
+  User,
+  Palette,
+  Shirt,
+  Footprints,
+} from "lucide-react";
+import { sanitizeText } from "../../lib/sanitize";
 
 interface DoorCustomizerProps {
   initialName?: string;
@@ -23,13 +33,13 @@ interface DoorCustomizerProps {
 }
 
 export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
-  initialName = 'Maya',
+  initialName = "Maya",
   onEnter,
 }) => {
   // Load stored avatar and name
   const [name, setName] = useState(() => {
     try {
-      const stored = localStorage.getItem('museum_visitor_name');
+      const stored = localStorage.getItem("museum_visitor_name");
       return stored ? sanitizeText(stored, 20) : sanitizeText(initialName, 20);
     } catch {
       return sanitizeText(initialName, 20);
@@ -38,7 +48,7 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
 
   const [config, setConfig] = useState<AvatarConfig>(() => {
     try {
-      const stored = localStorage.getItem('museum_avatar_config');
+      const stored = localStorage.getItem("museum_avatar_config");
       if (stored) return validateAvatarConfig(JSON.parse(stored));
     } catch {
       // Fallback
@@ -46,7 +56,9 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
     return DEFAULT_VISITOR_AVATAR;
   });
 
-  const [activeTab, setActiveTab] = useState<'skin' | 'hair' | 'outfit' | 'shoes' | 'extras'>('skin');
+  const [activeTab, setActiveTab] = useState<
+    "skin" | "hair" | "outfit" | "shoes" | "extras"
+  >("skin");
   const [isCloseUp, setIsCloseUp] = useState(false);
   const [avatarYaw, setAvatarYaw] = useState(0);
   const [isEntering, setIsEntering] = useState(false);
@@ -75,40 +87,40 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
   // Cycle presets
   const presets: Array<Partial<AvatarConfig>> = [
     {
-      preset: 'a',
-      hairStyle: 'long',
-      hairColor: '#3A261A',
-      top: 'sweater',
-      topColor: '#2B2D33',
-      bottom: 'trousers',
-      bottomColor: '#EDEBE6',
-      shoes: 'boots',
-      shoesColor: '#3A261A',
-      extras: ['belt'],
+      preset: "a",
+      hairStyle: "long",
+      hairColor: "#3A261A",
+      top: "sweater",
+      topColor: "#2B2D33",
+      bottom: "trousers",
+      bottomColor: "#EDEBE6",
+      shoes: "boots",
+      shoesColor: "#3A261A",
+      extras: ["belt"],
     },
     {
-      preset: 'b',
-      hairStyle: 'bob',
-      hairColor: '#1A1816',
-      top: 'turtleneck',
-      topColor: '#5C4A3A',
-      bottom: 'jeans',
-      bottomColor: '#243242',
-      shoes: 'sneakers',
-      shoesColor: '#FFFFFF',
-      extras: ['glasses', 'belt'],
+      preset: "b",
+      hairStyle: "bob",
+      hairColor: "#1A1816",
+      top: "turtleneck",
+      topColor: "#5C4A3A",
+      bottom: "jeans",
+      bottomColor: "#243242",
+      shoes: "sneakers",
+      shoesColor: "#FFFFFF",
+      extras: ["glasses", "belt"],
     },
     {
-      preset: 'c',
-      hairStyle: 'ponytail',
-      hairColor: '#4A3525',
-      top: 'blouse',
-      topColor: '#EDEBE6',
-      bottom: 'skirt',
-      bottomColor: '#1B1D24',
-      shoes: 'loafers',
-      shoesColor: '#3D2B1F',
-      extras: ['earrings', 'belt'],
+      preset: "c",
+      hairStyle: "ponytail",
+      hairColor: "#4A3525",
+      top: "blouse",
+      topColor: "#EDEBE6",
+      bottom: "skirt",
+      bottomColor: "#1B1D24",
+      shoes: "loafers",
+      shoesColor: "#3D2B1F",
+      extras: ["earrings", "belt"],
     },
   ];
 
@@ -126,10 +138,10 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
     if (isEntering) return;
     setIsEntering(true);
 
-    const cleanName = sanitizeText(name, 20) || 'Visitor';
+    const cleanName = sanitizeText(name, 20) || "Visitor";
     try {
-      localStorage.setItem('museum_visitor_name', cleanName);
-      localStorage.setItem('museum_avatar_config', JSON.stringify(config));
+      localStorage.setItem("museum_visitor_name", cleanName);
+      localStorage.setItem("museum_avatar_config", JSON.stringify(config));
     } catch {
       // Ignore quota error
     }
@@ -242,7 +254,7 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
             className="px-4 py-2 rounded-pill bg-white/80 hover:bg-white text-ink text-xs font-medium shadow-md backdrop-blur-md flex items-center gap-1.5 transition-all"
           >
             <ZoomIn className="w-3.5 h-3.5" />
-            <span>{isCloseUp ? 'Full body' : 'Close-up'}</span>
+            <span>{isCloseUp ? "Full body" : "Close-up"}</span>
           </button>
         </div>
 
@@ -263,16 +275,20 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
             <span className="text-[11px] text-stone-500 font-mono uppercase tracking-wider block">
               No account needed
             </span>
-            <h2 className="font-serif text-3xl text-ink font-normal mt-0.5">Your character</h2>
+            <h2 className="font-serif text-3xl text-ink font-normal mt-0.5">
+              Your character
+            </h2>
           </div>
 
           {/* Icon Tabs */}
           <div className="flex items-center gap-1.5 p-1 bg-stone-200/60 rounded-lg mb-6 text-stone-700">
             <button
               type="button"
-              onClick={() => setActiveTab('skin')}
+              onClick={() => setActiveTab("skin")}
               className={`flex-1 py-1.5 text-xs rounded-md font-medium transition-all flex items-center justify-center gap-1 ${
-                activeTab === 'skin' ? 'bg-white text-ink shadow-sm' : 'hover:text-ink'
+                activeTab === "skin"
+                  ? "bg-white text-ink shadow-sm"
+                  : "hover:text-ink"
               }`}
             >
               <Palette className="w-3.5 h-3.5" />
@@ -280,9 +296,11 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab('hair')}
+              onClick={() => setActiveTab("hair")}
               className={`flex-1 py-1.5 text-xs rounded-md font-medium transition-all flex items-center justify-center gap-1 ${
-                activeTab === 'hair' ? 'bg-white text-ink shadow-sm' : 'hover:text-ink'
+                activeTab === "hair"
+                  ? "bg-white text-ink shadow-sm"
+                  : "hover:text-ink"
               }`}
             >
               <User className="w-3.5 h-3.5" />
@@ -290,9 +308,11 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab('outfit')}
+              onClick={() => setActiveTab("outfit")}
               className={`flex-1 py-1.5 text-xs rounded-md font-medium transition-all flex items-center justify-center gap-1 ${
-                activeTab === 'outfit' ? 'bg-white text-ink shadow-sm' : 'hover:text-ink'
+                activeTab === "outfit"
+                  ? "bg-white text-ink shadow-sm"
+                  : "hover:text-ink"
               }`}
             >
               <Shirt className="w-3.5 h-3.5" />
@@ -300,9 +320,11 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab('shoes')}
+              onClick={() => setActiveTab("shoes")}
               className={`flex-1 py-1.5 text-xs rounded-md font-medium transition-all flex items-center justify-center gap-1 ${
-                activeTab === 'shoes' ? 'bg-white text-ink shadow-sm' : 'hover:text-ink'
+                activeTab === "shoes"
+                  ? "bg-white text-ink shadow-sm"
+                  : "hover:text-ink"
               }`}
             >
               <Footprints className="w-3.5 h-3.5" />
@@ -310,9 +332,11 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab('extras')}
+              onClick={() => setActiveTab("extras")}
               className={`flex-1 py-1.5 text-xs rounded-md font-medium transition-all flex items-center justify-center gap-1 ${
-                activeTab === 'extras' ? 'bg-white text-ink shadow-sm' : 'hover:text-ink'
+                activeTab === "extras"
+                  ? "bg-white text-ink shadow-sm"
+                  : "hover:text-ink"
               }`}
             >
               <Sparkles className="w-3.5 h-3.5" />
@@ -321,9 +345,11 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
           </div>
 
           {/* Tab 1: Skin Tones */}
-          {activeTab === 'skin' && (
+          {activeTab === "skin" && (
             <div className="space-y-3">
-              <span className="text-xs font-medium text-stone-700 block">Skin tone</span>
+              <span className="text-xs font-medium text-stone-700 block">
+                Skin tone
+              </span>
               <div className="grid grid-cols-4 gap-2.5">
                 {SKIN_TONES.map((tone) => {
                   const isSelected = config.skin === tone.value;
@@ -335,12 +361,15 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
                       title={tone.name}
                       className={`h-11 rounded-xl flex flex-col items-center justify-center gap-1 border transition-all ${
                         isSelected
-                          ? 'border-ink scale-105 shadow-md ring-2 ring-ink/20'
-                          : 'border-black/10 hover:border-black/30'
+                          ? "border-ink scale-105 shadow-md ring-2 ring-ink/20"
+                          : "border-black/10 hover:border-black/30"
                       }`}
-                      style={{ backgroundColor: tone.value === 'original' ? '#F7F4EF' : tone.color }}
+                      style={{
+                        backgroundColor:
+                          tone.value === "original" ? "#F7F4EF" : tone.color,
+                      }}
                     >
-                      {tone.value === 'original' ? (
+                      {tone.value === "original" ? (
                         <Ban className="w-4 h-4 text-stone-500" />
                       ) : null}
                       <span className="text-[9px] font-medium text-stone-800 drop-shadow-sm">
@@ -354,88 +383,118 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
           )}
 
           {/* Tab 2: Hair Style & Colors */}
-          {activeTab === 'hair' && (
+          {activeTab === "hair" && (
             <div className="space-y-4">
               <div>
-                <span className="text-xs font-medium text-stone-700 block mb-2">Style</span>
+                <span className="text-xs font-medium text-stone-700 block mb-2">
+                  Style
+                </span>
                 <div className="grid grid-cols-3 gap-2">
-                  {(['long', 'bob', 'ponytail', 'bun', 'short', 'curly'] as HairStyle[]).map(
-                    (st) => (
-                      <button
-                        key={st}
-                        type="button"
-                        onClick={() => setConfig({ ...config, hairStyle: st })}
-                        className={`py-2 px-2 text-xs rounded-lg border capitalize font-medium transition-all ${
-                          config.hairStyle === st
-                            ? 'bg-ink text-cream border-ink'
-                            : 'bg-white/80 text-stone-700 border-black/10 hover:border-black/25'
-                        }`}
-                      >
-                        {st}
-                      </button>
-                    )
-                  )}
+                  {(
+                    [
+                      "long",
+                      "bob",
+                      "ponytail",
+                      "bun",
+                      "short",
+                      "curly",
+                    ] as HairStyle[]
+                  ).map((st) => (
+                    <button
+                      key={st}
+                      type="button"
+                      onClick={() => setConfig({ ...config, hairStyle: st })}
+                      className={`py-2 px-2 text-xs rounded-lg border capitalize font-medium transition-all ${
+                        config.hairStyle === st
+                          ? "bg-ink text-cream border-ink"
+                          : "bg-white/80 text-stone-700 border-black/10 hover:border-black/25"
+                      }`}
+                    >
+                      {st}
+                    </button>
+                  ))}
                 </div>
               </div>
 
               <div>
-                <span className="text-xs font-medium text-stone-700 block mb-2">Color</span>
+                <span className="text-xs font-medium text-stone-700 block mb-2">
+                  Color
+                </span>
                 <div className="flex items-center gap-2">
-                  {['#1A1816', '#3D2B1F', '#6E482B', '#A86A3D', '#D1A36A', '#9B2335'].map(
-                    (c) => (
-                      <button
-                        key={c}
-                        type="button"
-                        onClick={() => setConfig({ ...config, hairColor: c })}
-                        className={`w-7 h-7 rounded-full border-2 transition-transform ${
-                          config.hairColor === c ? 'border-ink scale-110 shadow-sm' : 'border-transparent'
-                        }`}
-                        style={{ backgroundColor: c }}
-                      />
-                    )
-                  )}
+                  {[
+                    "#1A1816",
+                    "#3D2B1F",
+                    "#6E482B",
+                    "#A86A3D",
+                    "#D1A36A",
+                    "#9B2335",
+                  ].map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setConfig({ ...config, hairColor: c })}
+                      className={`w-7 h-7 rounded-full border-2 transition-transform ${
+                        config.hairColor === c
+                          ? "border-ink scale-110 shadow-sm"
+                          : "border-transparent"
+                      }`}
+                      style={{ backgroundColor: c }}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
           )}
 
           {/* Tab 3: Outfit Top & Bottom */}
-          {activeTab === 'outfit' && (
+          {activeTab === "outfit" && (
             <div className="space-y-4">
               <div>
-                <span className="text-xs font-medium text-stone-700 block mb-2">Top</span>
+                <span className="text-xs font-medium text-stone-700 block mb-2">
+                  Top
+                </span>
                 <div className="grid grid-cols-3 gap-2">
-                  {(['sweater', 'tee', 'turtleneck', 'vest-shirt', 'blouse'] as TopStyle[]).map(
-                    (t) => (
-                      <button
-                        key={t}
-                        type="button"
-                        onClick={() => setConfig({ ...config, top: t })}
-                        className={`py-2 px-2 text-xs rounded-lg border capitalize font-medium transition-all ${
-                          config.top === t
-                            ? 'bg-ink text-cream border-ink'
-                            : 'bg-white/80 text-stone-700 border-black/10 hover:border-black/25'
-                        }`}
-                      >
-                        {t}
-                      </button>
-                    )
-                  )}
+                  {(
+                    [
+                      "sweater",
+                      "tee",
+                      "turtleneck",
+                      "vest-shirt",
+                      "blouse",
+                    ] as TopStyle[]
+                  ).map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setConfig({ ...config, top: t })}
+                      className={`py-2 px-2 text-xs rounded-lg border capitalize font-medium transition-all ${
+                        config.top === t
+                          ? "bg-ink text-cream border-ink"
+                          : "bg-white/80 text-stone-700 border-black/10 hover:border-black/25"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
                 </div>
               </div>
 
               <div>
-                <span className="text-xs font-medium text-stone-700 block mb-2">Bottom</span>
+                <span className="text-xs font-medium text-stone-700 block mb-2">
+                  Bottom
+                </span>
                 <div className="grid grid-cols-3 gap-2">
-                  {(['trousers', 'jeans', 'skirt', 'shorts'] as BottomStyle[]).map((b) => (
+                  {(
+                    ["trousers", "jeans", "skirt", "shorts"] as BottomStyle[]
+                  ).map((b) => (
                     <button
                       key={b}
                       type="button"
                       onClick={() => setConfig({ ...config, bottom: b })}
                       className={`py-2 px-2 text-xs rounded-lg border capitalize font-medium transition-all ${
                         config.bottom === b
-                          ? 'bg-ink text-cream border-ink'
-                          : 'bg-white/80 text-stone-700 border-black/10 hover:border-black/25'
+                          ? "bg-ink text-cream border-ink"
+                          : "bg-white/80 text-stone-700 border-black/10 hover:border-black/25"
                       }`}
                     >
                       {b}
@@ -447,34 +506,48 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
           )}
 
           {/* Tab 4: Shoes */}
-          {activeTab === 'shoes' && (
+          {activeTab === "shoes" && (
             <div className="space-y-4">
-              <span className="text-xs font-medium text-stone-700 block mb-2">Shoes</span>
+              <span className="text-xs font-medium text-stone-700 block mb-2">
+                Shoes
+              </span>
               <div className="grid grid-cols-3 gap-2">
-                {(['boots', 'sneakers', 'loafers'] as ShoesStyle[]).map((sh) => (
-                  <button
-                    key={sh}
-                    type="button"
-                    onClick={() => setConfig({ ...config, shoes: sh })}
-                    className={`py-2 px-2 text-xs rounded-lg border capitalize font-medium transition-all ${
-                      config.shoes === sh
-                        ? 'bg-ink text-cream border-ink'
-                        : 'bg-white/80 text-stone-700 border-black/10 hover:border-black/25'
-                    }`}
-                  >
-                    {sh}
-                  </button>
-                ))}
+                {(["boots", "sneakers", "loafers"] as ShoesStyle[]).map(
+                  (sh) => (
+                    <button
+                      key={sh}
+                      type="button"
+                      onClick={() => setConfig({ ...config, shoes: sh })}
+                      className={`py-2 px-2 text-xs rounded-lg border capitalize font-medium transition-all ${
+                        config.shoes === sh
+                          ? "bg-ink text-cream border-ink"
+                          : "bg-white/80 text-stone-700 border-black/10 hover:border-black/25"
+                      }`}
+                    >
+                      {sh}
+                    </button>
+                  ),
+                )}
               </div>
             </div>
           )}
 
           {/* Tab 5: Extras */}
-          {activeTab === 'extras' && (
+          {activeTab === "extras" && (
             <div className="space-y-4">
-              <span className="text-xs font-medium text-stone-700 block mb-2">Accessories</span>
+              <span className="text-xs font-medium text-stone-700 block mb-2">
+                Accessories
+              </span>
               <div className="grid grid-cols-2 gap-2">
-                {(['glasses', 'beanie', 'earrings', 'scarf', 'belt'] as ExtraItem[]).map((item) => {
+                {(
+                  [
+                    "glasses",
+                    "beanie",
+                    "earrings",
+                    "scarf",
+                    "belt",
+                  ] as ExtraItem[]
+                ).map((item) => {
                   const has = config.extras.includes(item);
                   return (
                     <button
@@ -488,12 +561,14 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
                       }}
                       className={`py-2.5 px-3 text-xs rounded-lg border capitalize font-medium transition-all flex items-center justify-between ${
                         has
-                          ? 'bg-ink text-cream border-ink'
-                          : 'bg-white/80 text-stone-700 border-black/10 hover:border-black/25'
+                          ? "bg-ink text-cream border-ink"
+                          : "bg-white/80 text-stone-700 border-black/10 hover:border-black/25"
                       }`}
                     >
                       <span>{item}</span>
-                      {has && <span className="text-[10px] text-presence">✓</span>}
+                      {has && (
+                        <span className="text-[10px] text-presence">✓</span>
+                      )}
                     </button>
                   );
                 })}
@@ -505,7 +580,10 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
         {/* Bottom Actions: Name input and Enter button */}
         <div className="mt-6 pt-4 border-t border-black/10 space-y-3">
           <div>
-            <label htmlFor="customizer-name" className="text-xs font-medium text-stone-700 block mb-1">
+            <label
+              htmlFor="customizer-name"
+              className="text-xs font-medium text-stone-700 block mb-1"
+            >
               Your name
             </label>
             <input
@@ -528,7 +606,7 @@ export const DoorCustomizer: React.FC<DoorCustomizerProps> = ({
             disabled={isEntering}
             className="w-full py-3.5 rounded-pill bg-ink text-cream hover:bg-black font-medium transition-all duration-200 shadow-xl flex items-center justify-center gap-2 hover:scale-[1.01]"
           >
-            <span>{isEntering ? 'Opening doors...' : 'Enter the museum'}</span>
+            <span>{isEntering ? "Opening doors..." : "Enter the museum"}</span>
           </button>
         </div>
       </div>

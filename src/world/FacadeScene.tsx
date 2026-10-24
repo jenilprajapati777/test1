@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
-import * as THREE from 'three';
-import { getLimestoneTexture } from './materials';
+import React, { useMemo } from "react";
+import { getLimestoneTexture } from "./materials";
 
 interface FacadeSceneProps {
   doorOpenProgress: number; // 0.0 to 1.0 (doors swing open)
 }
 
-export const FacadeScene: React.FC<FacadeSceneProps> = ({ doorOpenProgress }) => {
+export const FacadeScene: React.FC<FacadeSceneProps> = ({
+  doorOpenProgress,
+}) => {
   const limestoneTexture = useMemo(() => getLimestoneTexture(), []);
 
   // Compute door swing angle: 0 to -85 deg (-1.48 rad)
@@ -16,7 +17,11 @@ export const FacadeScene: React.FC<FacadeSceneProps> = ({ doorOpenProgress }) =>
   return (
     <group>
       {/* 1. Glossy ground floor in front of museum facade */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 2]} receiveShadow>
+      <mesh
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, -0.01, 2]}
+        receiveShadow
+      >
         <planeGeometry args={[14, 10]} />
         <meshStandardMaterial
           color="#D8D2C5"
@@ -88,7 +93,11 @@ export const FacadeScene: React.FC<FacadeSceneProps> = ({ doorOpenProgress }) =>
         {/* Brass Ring Pull */}
         <mesh position={[0.78, 0, 0.05]}>
           <torusGeometry args={[0.06, 0.015, 12, 24]} />
-          <meshStandardMaterial color="#C8B98A" metalness={0.8} roughness={0.2} />
+          <meshStandardMaterial
+            color="#C8B98A"
+            metalness={0.8}
+            roughness={0.2}
+          />
         </mesh>
       </group>
 
@@ -101,7 +110,11 @@ export const FacadeScene: React.FC<FacadeSceneProps> = ({ doorOpenProgress }) =>
         {/* Brass Ring Pull */}
         <mesh position={[-0.78, 0, 0.05]}>
           <torusGeometry args={[0.06, 0.015, 12, 24]} />
-          <meshStandardMaterial color="#C8B98A" metalness={0.8} roughness={0.2} />
+          <meshStandardMaterial
+            color="#C8B98A"
+            metalness={0.8}
+            roughness={0.2}
+          />
         </mesh>
       </group>
     </group>

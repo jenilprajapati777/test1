@@ -22,6 +22,35 @@ globalThis.ResizeObserver = class ResizeObserver {
   disconnect() {}
 };
 
+// Polyfill HTMLCanvasElement.getContext for jsdom
+if (typeof HTMLCanvasElement !== "undefined") {
+  HTMLCanvasElement.prototype.getContext = function (type: string) {
+    if (type === "2d") {
+      return {
+        fillStyle: "",
+        strokeStyle: "",
+        lineWidth: 1,
+        font: "",
+        textAlign: "center",
+        textBaseline: "middle",
+        letterSpacing: "",
+        fillRect: () => {},
+        clearRect: () => {},
+        getImageData: (_x: number, _y: number, w: number, h: number) => ({
+          data: new Uint8ClampedArray(w * h * 4),
+        }),
+        putImageData: () => {},
+        createLinearGradient: () => ({ addColorStop: () => {} }),
+        createRadialGradient: () => ({ addColorStop: () => {} }),
+        strokeRect: () => {},
+        fillText: () => {},
+        measureText: () => ({ width: 0 }),
+      } as unknown as CanvasRenderingContext2D;
+    }
+    return null;
+  } as unknown as typeof HTMLCanvasElement.prototype.getContext;
+}
+
 // Polyfill BroadcastChannel if not available in jsdom
 if (typeof globalThis.BroadcastChannel === "undefined") {
   const channels = new Map<string, Set<(ev: MessageEvent) => void>>();

@@ -1,8 +1,8 @@
-import React, { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
-import { AvatarConfig, AvatarAnimState, SKIN_TONES } from '../types/avatar';
-import { getToonGradientMap } from './materials';
+import React, { useRef, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+import { AvatarConfig, AvatarAnimState, SKIN_TONES } from "../types/avatar";
+import { getToonGradientMap } from "./materials";
 
 interface AvatarModelProps {
   config: AvatarConfig;
@@ -37,9 +37,9 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
 
   // Resolve skin color
   const skinColor = useMemo(() => {
-    if (config.skin === 'original') return '#FCD8C5';
+    if (config.skin === "original") return "#FCD8C5";
     const match = SKIN_TONES.find((s) => s.value === config.skin);
-    return match ? match.color : config.skin || '#FCD8C5';
+    return match ? match.color : config.skin || "#FCD8C5";
   }, [config.skin]);
 
   // Animation cross-fade weights
@@ -51,7 +51,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
     wave: 0,
     clap: 0,
     dance: 0,
-    'look-at-art': 0,
+    "look-at-art": 0,
   });
 
   useFrame((_, delta) => {
@@ -188,9 +188,10 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
     }
 
     // 8. Look at art
-    if (weights['look-at-art'] > 0.001) {
-      const w = weights['look-at-art'];
+    if (weights["look-at-art"] > 0.001) {
+      const w = weights["look-at-art"];
       headRotX = THREE.MathUtils.lerp(headRotX, -0.35, w); // look up
+      headRotY = THREE.MathUtils.lerp(headRotY, Math.sin(time * 1.5) * 0.08, w); // subtle head survey
       rArmRotX = THREE.MathUtils.lerp(rArmRotX, -Math.PI * 0.4, w);
       rForearmRotX = THREE.MathUtils.lerp(rForearmRotX, -1.2, w); // hand to chin
     }
@@ -211,8 +212,10 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
       rightArmRef.current.rotation.x = rArmRotX;
       rightArmRef.current.rotation.z = rArmRotZ;
     }
-    if (leftForearmRef.current) leftForearmRef.current.rotation.x = lForearmRotX;
-    if (rightForearmRef.current) rightForearmRef.current.rotation.x = rForearmRotX;
+    if (leftForearmRef.current)
+      leftForearmRef.current.rotation.x = lForearmRotX;
+    if (rightForearmRef.current)
+      rightForearmRef.current.rotation.x = rForearmRotX;
 
     if (leftLegRef.current) leftLegRef.current.rotation.x = lLegRotX;
     if (rightLegRef.current) rightLegRef.current.rotation.x = rLegRotX;
@@ -240,7 +243,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
         </mesh>
 
         {/* Belt extra */}
-        {config.extras.includes('belt') && (
+        {config.extras.includes("belt") && (
           <mesh position={[0, 0.05, 0]}>
             <cylinderGeometry args={[0.185, 0.185, 0.04, 16]} />
             <meshStandardMaterial color="#3D2B1F" roughness={0.4} />
@@ -259,7 +262,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
           </mesh>
 
           {/* Vest overlay if top is vest-shirt */}
-          {config.top === 'vest-shirt' && (
+          {config.top === "vest-shirt" && (
             <mesh position={[0, 0.16, 0]}>
               <cylinderGeometry args={[0.168, 0.148, 0.28, 16]} />
               <meshToonMaterial color="#111215" gradientMap={gradientMap} />
@@ -301,7 +304,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
             </mesh>
 
             {/* Hair Styles */}
-            {config.hairStyle !== 'none' && (
+            {config.hairStyle !== "none" && (
               <group position={[0, 0.18, 0]}>
                 {/* Hair Cap */}
                 <mesh position={[0, 0.04, -0.02]} castShadow>
@@ -313,7 +316,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
                 </mesh>
 
                 {/* Long Hair Flow */}
-                {config.hairStyle === 'long' && (
+                {config.hairStyle === "long" && (
                   <mesh position={[0, -0.22, -0.1]} castShadow>
                     <boxGeometry args={[0.26, 0.44, 0.1]} />
                     <meshToonMaterial
@@ -324,7 +327,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
                 )}
 
                 {/* Curly Volume */}
-                {config.hairStyle === 'curly' && (
+                {config.hairStyle === "curly" && (
                   <group position={[0, 0.06, 0]}>
                     <mesh position={[-0.1, 0.05, 0]}>
                       <sphereGeometry args={[0.08, 8, 8]} />
@@ -351,7 +354,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
                 )}
 
                 {/* Ponytail */}
-                {config.hairStyle === 'ponytail' && (
+                {config.hairStyle === "ponytail" && (
                   <mesh position={[0, 0.1, -0.22]} rotation={[0.4, 0, 0]}>
                     <cylinderGeometry args={[0.04, 0.08, 0.35, 12]} />
                     <meshToonMaterial
@@ -362,7 +365,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
                 )}
 
                 {/* Top Bun */}
-                {config.hairStyle === 'bun' && (
+                {config.hairStyle === "bun" && (
                   <mesh position={[0, 0.22, -0.04]}>
                     <sphereGeometry args={[0.08, 12, 12]} />
                     <meshToonMaterial
@@ -375,7 +378,7 @@ export const AvatarModel: React.FC<AvatarModelProps> = ({
             )}
 
             {/* Extras: Glasses */}
-            {config.extras.includes('glasses') && (
+            {config.extras.includes("glasses") && (
               <group position={[0, 0.18, 0.155]}>
                 <mesh position={[-0.055, 0, 0]}>
                   <torusGeometry args={[0.03, 0.005, 8, 16]} />
