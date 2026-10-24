@@ -85,7 +85,9 @@ test.describe("Creator Builder, Share Screen & Dashboard (Tests 25, 26)", () => 
     await expect(page.locator("h1")).toContainText("Your Collections");
 
     // Museum is listed
-    const card = page.locator('.rounded-2xl:has-text("Our Winter Story")').first();
+    const card = page
+      .locator('.rounded-2xl:has-text("Our Winter Story")')
+      .first();
     await expect(card).toBeVisible({ timeout: 10000 });
     await expect(card.locator("text=From Ethan │ To Maya")).toBeVisible();
 
@@ -98,6 +100,8 @@ test.describe("Creator Builder, Share Screen & Dashboard (Tests 25, 26)", () => 
     await page.click('button:has-text("Delete Museum")');
 
     // Verified deleted
-    await expect(page.locator("text=Our Winter Story")).not.toBeVisible({ timeout: 5000 });
+    await expect(page.locator("text=Our Winter Story")).not.toBeVisible({
+      timeout: 5000,
+    });
   });
 });

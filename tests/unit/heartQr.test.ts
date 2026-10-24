@@ -6,10 +6,7 @@ import {
   renderHeartQrSvg,
   renderClassicQrSvg,
 } from "../../src/lib/heartQr";
-import {
-  renderHeartQrPng,
-  renderClassicQrPng,
-} from "../../src/lib/heartQrPng";
+import { renderHeartQrPng, renderClassicQrPng } from "../../src/lib/heartQrPng";
 import { generateSlug } from "../../src/lib/slug";
 
 function decodePng(png: PNG): string | null {

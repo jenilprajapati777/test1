@@ -12,4 +12,4 @@
 - [x] **Phase 7: Builder & Uploads & Dashboard & Share Screen** (6-step builder with IndexedDB autosave, image processing/resizing/EXIF stripping, plaque preview, host lines, share screen, creator dashboard)
 - [x] **Phase 8: Supabase Adapter & Migration & PGlite SQL Tests & /setup & db:migrate** (Postgres schema, RLS, RPCs, storage bucket policies, PGlite SQL test suite, /setup diagnostic page, db:migrate runner)
 - [x] **Phase 9: Hardening & Compliance** (perf budgets, size check script, lite 2D fallback, a11y axe-core audits, CSP/security headers, legal pages, report flow, error boundaries)
-- [ ] **Phase 10: Docs, GitHub/Cloudflare Deploy Files & Final Verification** (docs/DEPLOY.md, docs/SHARE.md, docs/PRIVACY_TERMS_TEMPLATES.md, HANDOFF.md, CI workflows, verify suite 0 skipped)
+- [x] **Phase 10: Docs, GitHub/Cloudflare Deploy Files & Final Verification** (docs/DEPLOY.md, docs/SHARE.md, docs/PRIVACY_TERMS_TEMPLATES.md, HANDOFF.md, CI workflows, verify suite 0 skipped)

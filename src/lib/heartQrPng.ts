@@ -1,10 +1,6 @@
 import QRCode from "qrcode";
 import { PNG } from "pngjs";
-import {
-  HeartQrOptions,
-  getHeartQrModules,
-  parseHexColor,
-} from "./heartQr";
+import { HeartQrOptions, getHeartQrModules, parseHexColor } from "./heartQr";
 
 export function renderHeartQrPng(
   url: string,
